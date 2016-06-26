@@ -9,9 +9,9 @@
 		//--------------------------------------------------
 		//      Home Controller
 		//--------------------------------------------------
-		HomeController.$inject  = ['$scope'];
+		HomeController.$inject  = ['$scope','api'];
 
-		function HomeController($scope){
+		function HomeController($scope, api){
 			console.log('Home Ctrl');
 			$scope.message = 'Home Page';		
 		}

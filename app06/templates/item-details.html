@@ -1,0 +1,14 @@
+<article>
+	<header>
+		<h3>{{item.title}}</h3>
+	</header>
+		<section>
+			<img src="covers/{{item.artwork}}" alt="{{item.title}}">
+			<h4>{{item.artist}}</h4>
+			<p ng-bind-html="item.description"></p>
+		</section>
+		<footer>
+			<span>{{item.price}}</span>
+			<button>Order</button>
+		</footer>
+</article>		
