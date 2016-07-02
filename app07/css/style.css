@@ -1,0 +1,8 @@
+.list{
+	list-style: none;
+}
+
+.item{
+	text-decoration: none;
+	display: block;
+}

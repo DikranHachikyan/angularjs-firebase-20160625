@@ -1,0 +1,11 @@
+<h1>Items in {{category_title}}</h1>
+
+<ul class="list">
+	<li ng-repeat="item in items">
+		<a ng-href="#/{{catid}}/item-details/{{item.id}}" class="item">
+			<h4>{{item.title}} - {{item.artist}}</h4>
+			<img ng-src="covers/{{item.artwork}}" alt="{{item.title}}">
+			<p>{{category.description}}</p>
+		</a>
+	</li>
+</ul>

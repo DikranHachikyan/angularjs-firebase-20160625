@@ -1,0 +1,11 @@
+<h1>Categories</h1>
+
+<ul class="list">
+	<li ng-repeat="(key,category) in categories">
+		<a ng-href="#/category/{{key}}/items" class="item" ng-click="saveCategory(category.title)">
+			<h4>{{category.title}}</h4>
+			<img ng-src="images/{{category.thumbnail}}" alt="{{category.title}}">
+			<p>{{category.description}}</p>
+		</a>
+	</li>
+</ul>
