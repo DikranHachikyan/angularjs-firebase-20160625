@@ -1,0 +1,8 @@
+<nav>
+<h4 ng-show="currentUser">Hi {{currentUser.firstname}}</h4>
+	<ul>
+		<li ng-hide="currentUser"><a ng-href="#/register">Registration</a></li>
+		<li ng-hide="currentUser"><a ng-href="#/login">Login</a></li>
+		<li ng-show="currentUser"><a ng-href="#">Logout</a></li>
+	</ul>
+</nav>

@@ -3,8 +3,72 @@
 
 	angular
 		.module('WebApp')
-		.factory('api', ApiFactory );
+		.factory('api', ApiFactory )
+		.factory('auth', AuthFactory);
 
+
+
+		//-------------------------------------------------------
+		//   Authentication Factory
+		//-------------------------------------------------------
+		AuthFactory.$inject = ['$firebaseAuth','$firebaseObject','settings'];
+
+		function AuthFactory($firebaseAuth,$firebaseObject,settings){
+			var ref = new Firebase(settings.FB_URL);
+			var authRef = $firebaseAuth(ref);
+			return {
+				  'registerUser': registerUser
+				, 'userLogin':    userLogin
+			};
+			//----------------------------------------
+			// User login
+			//----------------------------------------
+			function userLogin(user){
+				return authRef.$authWithPassword({
+						  		'email':user.mail
+								, 'password': user.pass
+							})
+							.then( function(authData){
+								var userRef = ref.child('users').child(authData.uid);
+								var userObj = $firebaseObject(userRef);
+								return userObj.$loaded()
+											  .then(function(data){
+											  	return data;
+											  })
+											  .catch(function(error){
+											  	console.log('get user data',error);
+											  	return error;
+											  });
+							})
+							.catch(function(error){
+								console.log('user login:', error);
+							});
+			}//user login
+			//----------------------------------------
+			//  Register User
+			//----------------------------------------
+			function registerUser(user){
+				return authRef.$createUser({
+								  'email': user.mail
+								, 'password': user.pass1
+							})
+							.then(function(authData){
+								//write user data in DB
+								var obj = ref.child('users').child(authData.uid);
+								return obj.set({
+									  'uid': authData.uid
+									, 'email': user.mail
+									, 'firstname': user.firstname
+									, 'lastname': user.lastname
+									, 'date': Firebase.ServerValue.TIMESTAMP
+								}); //obj.set();
+							})
+							.catch(function(error){
+								console.log('Create user:',error);
+							});		
+			}//function register user
+			//----------------------------------------
+		}// function AuthFactory
 		//-------------------------------------------------------
 		//    Api Factory
 		//-------------------------------------------------------
@@ -27,7 +91,7 @@
 
 				return catsObj.$loaded()
 						   .then(function(data){
-						   	    console.log('Data:', data);
+						   	   // console.log('Data:', data);
 						   		return data;
 						   })
 						   .catch(function(error){

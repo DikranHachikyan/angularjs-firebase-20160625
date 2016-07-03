@@ -5,7 +5,8 @@
 		.module('WebApp')
 		.controller('HomeCtrl', HomeController)
 		.controller('ItemsCtrl', ItemsController)
-		.controller('ItemInfoCtrl', ItemInfoController);
+		.controller('ItemInfoCtrl', ItemInfoController)
+		.controller('UserCtrl', UserController);
 
 		//--------------------------------------------------
 		//      Home Controller
@@ -58,5 +59,41 @@
 				   });
 			}
 		}
+		//---------------------------------------------------
+		// User Controller
+		//---------------------------------------------------
+		UserController.$inject = ['$scope','auth','$location','$rootScope'];
+
+		function UserController($scope,auth,$location,$rootScope){
+			console.log('user controller');
+
+			$scope.login = function(user){
+				auth.userLogin(user)
+					.then(function(data){
+						$rootScope.currentUser = data;
+						console.log('login:',data);
+						$location.path('/');
+					});
+			};// login
+			//--------------------------------
+			$scope.register = function(user){
+				//console.log('user:', user);
+				auth.registerUser( user )
+					.then(function(error){
+						if(error)
+						{
+							console.log(error);
+						}
+						else
+						{
+							$scope.login({
+								 'mail':user.mail
+								,'pass': user.pass1
+							});
+						}
+					});
+			};// regster
+			
+		}//function user controller
 		//---------------------------------------------------
 })();
